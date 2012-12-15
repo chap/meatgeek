@@ -1,6 +1,8 @@
 Meatgeek::Application.routes.draw do
   resources :readings
 
+  root :to => 'readings#index'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

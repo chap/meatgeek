@@ -2,7 +2,7 @@ class ReadingsController < ApplicationController
   # GET /readings
   # GET /readings.json
   def index
-    @readings = Reading.all
+    @readings = Reading.order('created_at desc')
 
     respond_to do |format|
       format.html # index.html.erb
