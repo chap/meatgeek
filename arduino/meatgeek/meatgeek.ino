@@ -116,7 +116,7 @@ void loop() {
   }
 
   // take temp every 10 seconds
-  delay(1000);
+  delay(10000);
 }
 
 long average(long array[])
