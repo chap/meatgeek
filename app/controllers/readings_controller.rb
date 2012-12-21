@@ -1,8 +1,11 @@
 class ReadingsController < ApplicationController
+  before_filter :authenticate, :only => [:create]
+
   # GET /readings
   # GET /readings.json
   def index
     @readings = Reading.order('created_at desc')
+    @readings_by_minute = @readings.group_by {|r| r.created_at.strftime("%D %H:%M") }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,15 +43,15 @@ class ReadingsController < ApplicationController
   # POST /readings
   # POST /readings.json
   def create
-    @reading = Reading.new(params[:reading])
+    @reading1 = Reading.create(params[:readings].first)
+    @reading2 = Reading.create(params[:readings].last)
 
     respond_to do |format|
-      if @reading.save
-        format.html { redirect_to @reading, notice: 'Reading was successfully created.' }
-        format.json { render json: @reading, status: :created, location: @reading }
+      if !@reading1.new_record? && !@reading2.new_record?
+        Reading.alert_air_temp
+        format.json { render json: [@reading1, @reading2], status: :created }
       else
-        format.html { render action: "new" }
-        format.json { render json: @reading.errors, status: :unprocessable_entity }
+        format.json { render json: [@reading1.errors, @reading2.errors], status: :unprocessable_entity }
       end
     end
   end

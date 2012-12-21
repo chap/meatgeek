@@ -1,19 +1,15 @@
-<h1><%= @readings.first.temperature %>&#176;</h1>
-
 <table>
   <tr>
-    <th>Temperature</th>
+    <th>Meat</th>
+    <th>Air</th>
     <th></th>
   </tr>
 
-<% @readings.each do |reading| %>
+<% @readings_by_minute.each do |time, readings| %>
   <tr>
-    <td><%= reading.temperature %></td>
-    <td><%= time_ago_in_words(reading.created_at) %></td>
+    <td><%= readings.find {|r| r.meat? }.temperature rescue "" %></td>
+    <td><%= readings.find {|r| r.air? }.temperature rescue "" %></td>
+    <td><%= time_ago_in_words(readings.first.created_at) %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Reading', new_reading_path %>
