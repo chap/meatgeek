@@ -9,7 +9,7 @@
   <tr>
     <td><%= readings.find {|r| r.meat? }.temperature rescue "" %></td>
     <td><%= readings.find {|r| r.air? }.temperature rescue "" %></td>
-    <td><%= time_ago_in_words(readings.first.created_at) %></td>
+    <td><small><%= time_ago_in_words(readings.first.created_at) %> ago</small></td>
   </tr>
 <% end %>
 </table>
