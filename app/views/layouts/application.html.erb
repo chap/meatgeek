@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%= '<meta http-equiv="refresh" content="65">'.html_safe if params[:refresh] %>
   <title>Meatgeek</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
