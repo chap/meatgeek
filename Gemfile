@@ -5,6 +5,7 @@ gem 'rails', '3.2.9'
 
 gem 'pg'
 gem "twilio-ruby", "~> 3.9.0"
+gem 'thin'
 
 
 # Gems used only for assets and not required
