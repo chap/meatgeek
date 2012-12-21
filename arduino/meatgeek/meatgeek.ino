@@ -18,7 +18,7 @@ long airTemps[6] = {0};
 byte mac[] = {  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEF };  // MAC address for the ethernet controller.
 #define FEED_URI  "/readings.json"
 
-boolean production = false;
+boolean production = true;
 
 EthernetClient client;
 boolean lastConnected = false;
@@ -103,7 +103,7 @@ void loop() {
   }
 
   // take temp every 10 seconds
-  delay(1000);
+  delay(10000);
 }
 
 void postTemperature(String meatTemp, String airTemp)
