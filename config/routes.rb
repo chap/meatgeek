@@ -1,5 +1,8 @@
 Meatgeek::Application.routes.draw do
-  resources :readings
+  resources :alerts
+
+
+  resources :readings, :only => [:index, :create, :show]
 
   root :to => 'readings#index'
 
