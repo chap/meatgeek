@@ -11,12 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121215003332) do
+ActiveRecord::Schema.define(:version => 20121221020858) do
+
+  create_table "alerts", :force => true do |t|
+    t.decimal  "min_temp"
+    t.decimal  "max_temp"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "readings", :force => true do |t|
     t.decimal  "temperature", :precision => 8, :scale => 2
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
+    t.integer  "probe_id"
+    t.boolean  "alerted",                                   :default => false, :null => false
   end
 
 end
