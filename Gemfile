@@ -7,9 +7,6 @@ gem 'pg'
 gem "twilio-ruby", "~> 3.9.0"
 gem 'thin'
 
-gem 'quiet_assets'#, :group => :development
-
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -20,6 +17,10 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :development do
+  gem 'quiet_assets'
 end
 
 gem 'jquery-rails'

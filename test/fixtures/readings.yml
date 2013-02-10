@@ -2,6 +2,8 @@
 
 one:
   temperature: 9.99
+  prob_id: 1
 
 two:
   temperature: 9.99
+  prob_id: 2
