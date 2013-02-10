@@ -1,7 +1,11 @@
-#include <Ethernet.h>
 #include <SPI.h>
-//#include <HTTPClient.h>
-//#include <aJSON.h>
+#include <WiFi.h>
+// #include <HTTPClient.h>
+// #include <aJSON.h>
+
+char ssid[] = "???";     //  your network SSID (name) 
+char pass[] = "???";    // your network password
+int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 // Temperature conversion constants (Steinhart-Hart Equation)
 const float a = 0.000546403;
@@ -15,12 +19,12 @@ long airTemps[6] = {0};
 
 //  Ethernet Variables
 
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };  // MAC address for the ethernet controller.
+byte mac[] = {  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEF };  // MAC address for the ethernet controller.
 #define FEED_URI  "/readings.json"
 
-boolean production = true;
+boolean production = false;
 
-EthernetClient client;
+WiFiClient client;
 boolean lastConnected = false;
                                                 
 void setup()
@@ -28,19 +32,22 @@ void setup()
   Serial.begin(9600);
   analogReference(DEFAULT);
   
-//  Serial.print("wtf");
-  
-  Ethernet.begin(mac);
-  
-//  if (client.connect((production ? "meatgeek.herokuapp.com" : "meatgeek.192.168.1.110.xip.io"), 80)) {
-//    client.println("Connection: close");
-//    Serial.println("connect success");
-//    lastConnected = client.connected();
-//    Serial.print("lastConnected=");
-//    Serial.println(lastConnected);
-//  } else {
-//    Serial.println("connection failed");
-//  }
+  // attempt to connect to an open network:
+  Serial.print("Attempting to connect to WPA network: ");
+  Serial.println(ssid);
+  status = WiFi.begin(ssid, pass);
+
+  // if you're not connected, stop here:
+  if ( status != WL_CONNECTED) { 
+    Serial.println("Couldn't get a wifi connection");
+    while(true);
+  } 
+  // if you are connected :
+  else {
+      Serial.print("You're connected to the network");
+      //printCurrentNet();
+      //printWifiData();
+  }
 }
 
 void loop() {
@@ -54,9 +61,6 @@ void loop() {
       {
         // store raw resistance
         meatTemps[count] = analogRead(meatProbe);
-        
-        Serial.print("meatTemp=");
-        Serial.println(meatTemps[count]);
     
         // stop looping
         count = 6;
@@ -72,9 +76,6 @@ void loop() {
       {
         // store raw resistance
         airTemps[count] = analogRead(airProbe);
-        
-        Serial.print("airTemp=");
-        Serial.println(airTemps[count]);
     
         // stop looping
         count = 6;
@@ -121,12 +122,7 @@ void loop() {
   }
 
   // take temp every 10 seconds
-  if (production) {
-    delay(10000);
-  } else {
-    delay(1000);
-  }
-  
+  delay((production ? 10000 : 1000));
 }
 
 void postTemperature(String meatTemp, String airTemp)
