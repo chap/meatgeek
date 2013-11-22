@@ -4,7 +4,8 @@ class ReadingsController < ApplicationController
   # GET /readings
   # GET /readings.json
   def index
-    @readings = Reading.order('created_at desc').limit(100)
+    @readings = Reading.order('created_at desc')
+    @readings = @readings.limit(100) unless params[:unlimited].present?
     @readings_by_minute = @readings.group_by {|r| r.created_at.strftime("%D %H:%M") }
 
     respond_to do |format|
